@@ -1,10 +1,15 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {Container, Col, Row, Image, Form, Button} from 'react-bootstrap';
 import UA from '../images/ua.png'
 import Swal from 'sweetalert2';
 
 
+
 const Landing = () => {
+
+  useEffect(() => {
+    document.title = "UAGCDA - Sign Up";
+  })
 
   const [Email, setEmail] = useState("");
   const [Pin, setPin] = useState("");
@@ -106,7 +111,7 @@ const Landing = () => {
             </p>
 
             <p className='display-6 text-light'>
-              Dissemination App
+              Code Dissemination App
             </p>
           </Container>
         </Col>

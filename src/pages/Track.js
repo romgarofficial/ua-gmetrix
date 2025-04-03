@@ -8,17 +8,16 @@ const Track = () => {
 
   const [Email, setEmail] = useState("");
   const [Pin, setPin] = useState("");
-  const [confirmPin, setConfirmPin] = useState("");
-  const [message, setMessage] = useState('');
 
   const [certifications, setCertifications] = useState([]); // State to hold certification names
   const [selectedCertification, setSelectedCertification] = useState(''); // Track selected option
 
-  console.log(selectedCertification);
-
   const apiURL = 'https://api.sheetbest.com/sheets/96839f23-9fa7-4136-8d9a-dbcf04027d9a'; // Replace with your SheetBest API URL for certification-type sheet
 
   useEffect(() => {
+
+    document.title = "UAGCDA - Code Tracking";
+
     const fetchCertifications = async () => {
   
       try {
@@ -30,7 +29,6 @@ const Track = () => {
           .filter((row) => row.sheetType === 'certification-type') // Filter for certification-type rows
           .map((row) => row.certificateName); // Extract certificateName field
   
-        console.log('Certifications:', certNames); // Log certification names for debugging
         setCertifications(certNames); // Update state with certification names
       } catch (error) {
         console.error('Error fetching certifications:', error);
@@ -45,60 +43,91 @@ const Track = () => {
     fetchCertifications();
   }, []);
 
-  // Handle form submission to fetch GMETRIX code
   const generate = async (e) => {
     e.preventDefault();
-
-  if (!Email || !Pin || !selectedCertification) {
-    Swal.fire({
-      title: 'Missing Information!',
-      text: 'Please fill out all fields and select a certification type.',
-      icon: 'warning',
-    });
-    return;
-  }
-
-  try {
-    const response = await fetch(apiURL, { method: 'GET' });
-    const data = await response.json();
-
-    // Match the selected certification type and the entered email
-    const certificationData = data.filter((row) =>
-      row['certification-type'] === selectedCertification &&
-      row[`${selectedCertification}`] === Email // Match email under the corresponding certification column
-    );
-
-    if (certificationData.length > 0) {
-      // Fetch the corresponding GMETRIX code
-      const userCode = certificationData[0][`${selectedCertification}-CODE`];
+  
+    if (!Email || !Pin || !selectedCertification) {
+      Swal.fire({
+        title: 'Missing Information!',
+        text: 'Please fill out all fields and select a certification type.',
+        icon: 'warning',
+      });
+      return;
+    }
+  
+    try {
+      const response = await fetch(apiURL, { method: 'GET' });
+      const data = await response.json();
+  
+      // Step 1: Check if the email exists in `registration-data`
+      const registeredUser = data.find(
+        (row) => row.sheetType === 'registration-data' && row.Email.toLowerCase() === Email.toLowerCase()
+      );
+  
+      if (!registeredUser) {
+        Swal.fire({
+          title: 'Not Registered!',
+          text: 'This email is not registered. Please sign up first.',
+          icon: 'error',
+        });
+        return;
+      }
+  
+      // Step 2: Verify the PIN
+      if (registeredUser.Pin !== Pin) {
+        Swal.fire({
+          title: 'Incorrect PIN!',
+          text: 'The PIN you entered is incorrect. Please try again.',
+          icon: 'error',
+        });
+        return;
+      }
+  
+      // Step 3: Find the email under the provided certificates section
+      let certificationData = null;
+      let userCode = '';
+  
+      if (selectedCertification === 'ITS-CYBERSECURITY') {
+        certificationData = data.find(
+          (row) => row.sheetType === 'provided-cybersecurity' && row['ITS-CYBERSECURITY-EMAIL'].toLowerCase() === Email.toLowerCase()
+        );
+        userCode = certificationData ? certificationData['ITS-CYBERSECURITY-CODE'] : '';
+      } else if (selectedCertification === 'ITS-DATABASES') {
+        certificationData = data.find(
+          (row) => row.sheetType === 'provided-databases' && row['ITS-DATABASES-EMAIL'].toLowerCase() === Email.toLowerCase()
+        );
+        userCode = certificationData ? certificationData['ITS-DATABASES-CODE'] : '';
+      }
+  
+      if (!certificationData || !userCode) {
+        Swal.fire({
+          title: 'No Certification Found!',
+          text: 'This email is not linked to the selected certification.',
+          icon: 'error',
+        });
+        return;
+      }
+  
+      // Step 4: Display the GMETRIX Code
       Swal.fire({
         title: 'Your GMETRIX Code',
-        text: `Certification: ${selectedCertification}\nCode: ${userCode}`,
+        text: `Certification: ${selectedCertification} Code: ${userCode}`,
         icon: 'success',
       });
-
+  
       // Reset form
       setEmail('');
       setPin('');
       setSelectedCertification('');
-    } else {
+    } catch (error) {
+      console.error('Error fetching data:', error);
       Swal.fire({
-        title: 'Invalid Credentials!',
-        text: 'No matching user or certification found. Please try again.',
+        title: 'Error!',
+        text: 'Unable to retrieve your GMETRIX code. Please try again later.',
         icon: 'error',
       });
     }
-  } catch (error) {
-    console.error('Error fetching data:', error);
-    Swal.fire({
-      title: 'Error!',
-      text: 'Unable to retrieve your GMETRIX code. Please try again later.',
-      icon: 'error',
-    });
-  }
   };
-  
-
   
 
   return (
@@ -118,7 +147,7 @@ const Track = () => {
             </p>
 
             <p className='display-6 text-light'>
-              Dissemination App
+              Code Dissemination App
             </p>
           </Container>
         </Col>
@@ -183,7 +212,7 @@ const Track = () => {
                               ?
                               <p className='text-danger fw-bold'>Please input 6 digit pin only.</p>
                               :
-                              <p className='text-danger fw-bold'>Please input 6 digit pin only.
+                              <p className='text-danger fw-bold'>
                               </p>
                             }
 

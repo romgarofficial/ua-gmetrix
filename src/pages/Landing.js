@@ -1,9 +1,15 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import {Container, Col, Row, Image} from 'react-bootstrap';
 import UA from '../images/ua.png'
 import COVER from '../images/ua-cover.jpg'
 
+
 const Landing = () => {
+
+  useEffect(() => {
+    document.title = "UA GMETRIX CODE DISSEMINATION APP";
+  })
+
   return (
     <Container fluid className='zero-p-m'>
       <Row className='zero-p-m'>
@@ -21,7 +27,7 @@ const Landing = () => {
             </p>
 
             <p className='display-6 text-light'>
-              Dissemination App
+              Code Dissemination App
             </p>
           </Container>
         </Col>
