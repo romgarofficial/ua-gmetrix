@@ -19,15 +19,28 @@ const Landing = () => {
   const register = async (e) => {
     e.preventDefault();
   
-    const apiURL = 'https://api.sheetbest.com/sheets/96839f23-9fa7-4136-8d9a-dbcf04027d9a'; // Single connection for all sheets
+    const apiURL = 'https://api.sheetbest.com/sheets/96839f23-9fa7-4136-8d9a-dbcf04027d9a'; 
   
     const date = new Date();
-    const formatter = new Intl.DateTimeFormat('en-US', {
-      year: 'numeric',
-      month: '2-digit',
-      day: '2-digit',
+    const dateRegistered = date.toLocaleDateString('en-US', { 
+      year: 'numeric', 
+      month: 'long',  // "April"
+      day: 'numeric'  // "4"
     });
-    const dateRegistered = formatter.format(date);
+
+    // Convert it to a proper string before saving
+    const formattedDateRegistered = `${dateRegistered}`;
+  
+    // **Strict Email Validation**
+    const uaEmailRegex = /^[a-zA-Z0-9._%+-]+@ua\.edu\.ph$/;
+    if (!uaEmailRegex.test(Email)) {
+      Swal.fire({
+        title: 'Invalid Email!',
+        text: 'Only UA email addresses (@ua.edu.ph) are allowed.',
+        icon: 'error',
+      });
+      return; // Stop execution if email is invalid
+    }
   
     try {
       // Step 1: Fetch existing registration data to check if the email is already registered
@@ -59,7 +72,7 @@ const Landing = () => {
           sheetType: 'registration-data', // Add the sheetType to categorize the data
           Email,
           Pin,
-          dateRegistered,
+          dateRegistered: formattedDateRegistered
         }),
       });
   
@@ -91,6 +104,7 @@ const Landing = () => {
       });
     }
   };
+  
   
   
 
@@ -136,6 +150,12 @@ const Landing = () => {
                                 onChange={(e) => setEmail(e.target.value)}
                                 />
                             </Form.Group>
+
+                            {
+                              Email.length > 0 && !/^[a-zA-Z0-9._%+-]+@ua\.edu\.ph$/.test(Email) ? (
+                                <p className='text-danger fw-bold'>Only @ua.edu.ph emails are allowed.</p>
+                              ) : null
+                            }
 
                             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                                 <Form.Label>Enter Pin</Form.Label>
