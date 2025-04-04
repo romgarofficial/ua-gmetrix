@@ -117,8 +117,8 @@ const Track = () => {
       // Step 4: Display the GMETRIX Code
       Swal.fire({
         title: 'Your GMETRIX Code',
-        text: `Certification: ${selectedCertification} Code: ${userCode}`,
-        icon: 'success',
+        html: `Email: <strong>${Email}</strong> <br> Certification: <strong>${selectedCertification}</strong> <br> Code: <strong>${userCode}</strong>`, // Using 'html' correctly
+        icon: 'success'
       });
   
       // Reset form
