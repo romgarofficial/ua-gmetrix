@@ -15,8 +15,10 @@ const Landing = () => {
   const [Pin, setPin] = useState("");
   const [confirmPin, setConfirmPin] = useState("");
   const [message, setMessage] = useState('');
+  const [btnActive, setBtnActive] = useState(true);
 
   const register = async (e) => {
+    setBtnActive(false);
     e.preventDefault();
   
     const apiURL = 'https://api.sheetbest.com/sheets/96839f23-9fa7-4136-8d9a-dbcf04027d9a'; 
@@ -39,6 +41,7 @@ const Landing = () => {
         text: 'Only UA email addresses (@ua.edu.ph) are allowed.',
         icon: 'error',
       });
+      setBtnActive(true);
       return; // Stop execution if email is invalid
     }
   
@@ -59,6 +62,7 @@ const Landing = () => {
           text: 'The provided email is already registered. Please use a different email or contact the admin.',
           icon: 'warning',
         });
+        setBtnActive(true);
         return; // Stop execution if email is already registered
       }
   
@@ -87,6 +91,7 @@ const Landing = () => {
         setEmail('');
         setPin('');
         setConfirmPin('');
+        setBtnActive(true);
       } else {
         console.error('Error:', registerResponse.statusText);
         Swal.fire({
@@ -94,6 +99,7 @@ const Landing = () => {
           text: 'Please try again later or contact the admin.',
           icon: 'error',
         });
+        setBtnActive(true);
       }
     } catch (error) {
       console.error('Error:', error);
@@ -102,6 +108,7 @@ const Landing = () => {
         text: 'Unable to complete registration. Please try again later.',
         icon: 'error',
       });
+      setBtnActive(true);
     }
   };
   
@@ -216,7 +223,13 @@ const Landing = () => {
                             }
 
                             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                                <Button className='btn btn-warning w-100 py-3 mt-3 rounded-3' type='submit'>Sign Up</Button>
+                            {
+                              !btnActive
+                              ?
+                              <Button className='btn btn-primary w-100 py-3 mt-3 rounded-3' type='submit' disabled>LOADING</Button>
+                              :
+                              <Button className='btn btn-warning w-100 py-3 mt-3 rounded-3' type='submit'>Sign Up</Button>
+                            }
                             </Form.Group>
                         </Form>
                     </Col>

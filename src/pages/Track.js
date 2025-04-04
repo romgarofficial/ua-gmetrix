@@ -11,6 +11,7 @@ const Track = () => {
 
   const [certifications, setCertifications] = useState([]); // State to hold certification names
   const [selectedCertification, setSelectedCertification] = useState(''); // Track selected option
+  const [btnActive, setBtnActive] = useState(true);
 
   const apiURL = 'https://api.sheetbest.com/sheets/96839f23-9fa7-4136-8d9a-dbcf04027d9a'; // Replace with your SheetBest API URL for certification-type sheet
 
@@ -44,6 +45,7 @@ const Track = () => {
   }, []);
 
   const generate = async (e) => {
+    setBtnActive(false);
     e.preventDefault();
   
     if (!Email || !Pin || !selectedCertification) {
@@ -52,6 +54,7 @@ const Track = () => {
         text: 'Please fill out all fields and select a certification type.',
         icon: 'warning',
       });
+      setBtnActive(true);
       return;
     }
   
@@ -70,6 +73,7 @@ const Track = () => {
           text: 'This email is not registered. Please sign up first.',
           icon: 'error',
         });
+        setBtnActive(true);
         return;
       }
   
@@ -80,6 +84,7 @@ const Track = () => {
           text: 'The PIN you entered is incorrect. Please try again.',
           icon: 'error',
         });
+        setBtnActive(true);
         return;
       }
   
@@ -105,6 +110,7 @@ const Track = () => {
           text: 'This email is not linked to the selected certification.',
           icon: 'error',
         });
+        setBtnActive(true);
         return;
       }
   
@@ -119,6 +125,7 @@ const Track = () => {
       setEmail('');
       setPin('');
       setSelectedCertification('');
+      setBtnActive(true);
     } catch (error) {
       console.error('Error fetching data:', error);
       Swal.fire({
@@ -126,6 +133,7 @@ const Track = () => {
         text: 'Unable to retrieve your GMETRIX code. Please try again later.',
         icon: 'error',
       });
+      setBtnActive(true);
     }
   };
   
@@ -217,7 +225,13 @@ const Track = () => {
                             }
 
                             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                                <Button className='btn btn-warning w-100 py-3 mt-3 rounded-3' type='submit'>Get GMETRIX Code</Button>
+                                {
+                                  !btnActive
+                                  ?
+                                  <Button className='btn btn-primary w-100 py-3 mt-3 rounded-3' disabled>LOADING</Button>
+                                  :
+                                  <Button className='btn btn-warning w-100 py-3 mt-3 rounded-3' type='submit'>Get GMETRIX Code</Button>
+                                }
                             </Form.Group>
                         </Form>
                     </Col>
