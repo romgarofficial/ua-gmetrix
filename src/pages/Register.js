@@ -184,11 +184,11 @@ const Landing = () => {
                               :
                               Pin.length < 6
                               ?
-                              <p className='text-danger fw-bold'>Please input 6 digit pin only.</p>
+                              <p className='text-danger fw-bold'>Please input 6 character pin only.</p>
                               :
                               Pin.length > 6
                               ?
-                              <p className='text-danger fw-bold'>Please input 6 digit pin only.</p>
+                              <p className='text-danger fw-bold'>Please input 6 character pin only.</p>
                               :
                               <p className='text-success fw-bold'>STRONG: Your pin is secured.</p>
                             }
@@ -217,7 +217,7 @@ const Landing = () => {
                               :
                               Pin.length > 6
                               ?
-                              <p className='text-danger fw-bold'>Please input 6 digit pin only.</p>
+                              <p className='text-danger fw-bold'>Please input 6 character pin only.</p>
                               :
                               <p className='text-success fw-bold'>Pin matched!</p>
                             }

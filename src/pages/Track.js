@@ -218,7 +218,7 @@ const Track = () => {
                               :
                               Pin.length < 6
                               ?
-                              <p className='text-danger fw-bold'>Please input 6 digit pin only.</p>
+                              <p className='text-danger fw-bold'>Please input 6 character pin only.</p>
                               :
                               <p className='text-danger fw-bold'>
                               </p>
