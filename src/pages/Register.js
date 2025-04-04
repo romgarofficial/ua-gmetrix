@@ -226,7 +226,7 @@ const Landing = () => {
                             {
                               !btnActive
                               ?
-                              <Button className='btn btn-primary w-100 py-3 mt-3 rounded-3' type='submit' disabled>LOADING</Button>
+                              <Button className='btn btn-primary w-100 py-3 mt-3 rounded-3' disabled>LOADING</Button>
                               :
                               <Button className='btn btn-warning w-100 py-3 mt-3 rounded-3' type='submit'>Sign Up</Button>
                             }
