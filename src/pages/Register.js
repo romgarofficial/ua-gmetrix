@@ -29,7 +29,7 @@ const Register = () => {
       return; // Stop execution if pin is invalid
     }
 
-    const apiURL = 'https://api.sheetbest.com/sheets/96839f23-9fa7-4136-8d9a-dbcf04027d9a';
+    const apiURL = 'https://api.sheetbest.com/sheets/be0851bf-5c2a-4dc2-a8cc-e5b45dfefdf2';
 
     const date = new Date();
     const dateRegistered = date.toLocaleDateString('en-US', {
