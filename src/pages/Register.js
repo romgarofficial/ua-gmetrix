@@ -5,7 +5,7 @@ import Swal from 'sweetalert2';
 
 const Register = () => {
   useEffect(() => {
-    document.title = "UAGCDA - Sign Up";
+    document.title = "UA GMETRIX - Sign Up";
   });
 
   const [Email, setEmail] = useState("");
@@ -29,7 +29,7 @@ const Register = () => {
       return; // Stop execution if pin is invalid
     }
 
-    const apiURL = 'https://api.sheetbest.com/sheets/be0851bf-5c2a-4dc2-a8cc-e5b45dfefdf2';
+    const apiURL = 'https://api.sheetbest.com/sheets/c247804e-31c1-419f-8b28-fd4850f974b7';
 
     const date = new Date();
     const dateRegistered = date.toLocaleDateString('en-US', {

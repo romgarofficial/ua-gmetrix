@@ -13,11 +13,11 @@ const Track = () => {
   const [selectedCertification, setSelectedCertification] = useState(''); // Track selected option
   const [btnActive, setBtnActive] = useState(true);
 
-  const apiURL = 'https://api.sheetbest.com/sheets/be0851bf-5c2a-4dc2-a8cc-e5b45dfefdf2'; // Replace with your SheetBest API URL for certification-type sheet
+  const apiURL = 'https://api.sheetbest.com/sheets/c247804e-31c1-419f-8b28-fd4850f974b7'; // Replace with your SheetBest API URL for certification-type sheet
 
   useEffect(() => {
 
-    document.title = "UAGCDA - Code Tracking";
+    document.title = "UA GMETRIX - Code Track";
 
     const fetchCertifications = async () => {
   

@@ -7,7 +7,7 @@ import COVER from '../images/ua-cover.jpg'
 const Landing = () => {
 
   useEffect(() => {
-    document.title = "UA GMETRIX CODE DISSEMINATION APP";
+    document.title = "UA GMETRIX";
   })
 
   return (
