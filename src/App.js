@@ -16,7 +16,7 @@ function App() {
       <AppNavbar/>
       <Routes>
           <Route path="/" element={<Landing />} />
-          <Route path="/register" element={<Register />} />
+          <Route path="/sign-up" element={<Register />} />
           <Route path="/track" element={<Track />} />
       </Routes>
     </Router>
